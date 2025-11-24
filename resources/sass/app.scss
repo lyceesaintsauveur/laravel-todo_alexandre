@@ -1,0 +1,26 @@
+//@use "bootstrap/scss/bootstrap";
+
+@use "./variables" as *;
+
+
+// Import avec variables personnalisées
+@use "bootstrap/scss/bootstrap" with (
+    $primary: $primary,
+    $danger: $danger,
+    $dark: $dark,
+    
+    $enable-rounded: $enable-rounded
+);
+
+// Classes personnalisées
+.border-custom-danger {
+  border: 1px solid $danger !important;
+}
+
+.border-custom-primary {
+  border: 1px solid $primary !important;
+}
+
+.border-custom-dark {
+  border: 1px solid $dark !important;
+}

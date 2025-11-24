@@ -1,0 +1,11 @@
+Cree un nouveau seeder :
+php artisan make:seeder CategoriesSeeder
+php artisan db:seed --class=CategoriesSeeder
+
+puis rajouter le seeder dans le fichier : database\seeders\DatabaseSeeder.php
+
+php artisan migrate:fresh --seed
+
+php artisan make:model Listes
+
+php artisan make:controller ListesController

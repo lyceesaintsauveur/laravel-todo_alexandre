@@ -2,7 +2,6 @@
 
 return [
 
-
     /*
     |--------------------------------------------------------------------------
     | Default Maile
@@ -98,11 +97,11 @@ return [
             'retry_after' => 60,
         ],
 
-    // mailer personnalisé pointant vers notre canal
-    'custom_log' => [
-        'transport' => 'log',
-        'channel' => 'mail', // nom du canal défini plus haut
-    ],
+        // mailer personnalisé pointant vers notre canal
+        'custom_log' => [
+            'transport' => 'log',
+            'channel' => 'mail', // nom du canal défini plus haut
+        ],
 
     ],
 

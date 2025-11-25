@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Seeder;
-
 use App\Models\Todos;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class TodosSeeder extends Seeder
 {
@@ -16,19 +14,19 @@ class TodosSeeder extends Seeder
     public function run(): void
     {
         $todos = [
-            "Faire les courses",
-            "Arroser les plantes",
-            "Répondre aux e-mails",
-            "Nettoyer la cuisine",
-            "Sortir le chien",
-            "Préparer la réunion de lundi"
+            'Faire les courses',
+            'Arroser les plantes',
+            'Répondre aux e-mails',
+            'Nettoyer la cuisine',
+            'Sortir le chien',
+            'Préparer la réunion de lundi',
         ];
 
         $data = [];
 
         // assign todos to the first user if exist else create a test user
         $userId = DB::table('users')->value('id');
-        if (!$userId) {
+        if (! $userId) {
             $id = DB::table('users')->insertGetId([
                 'name' => 'Seed User',
                 'email' => 'seed@example.com',
@@ -57,5 +55,4 @@ class TodosSeeder extends Seeder
 
         DB::table('todos')->insert($data);
     }
-
 }

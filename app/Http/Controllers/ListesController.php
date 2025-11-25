@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Listes;
 use App\Models\Categories;
+use App\Models\Listes;
 use App\Models\Todos;
+use Illuminate\Http\Request;
+
 class ListesController extends Controller
 {
     // Affiche la page de gestion des listes (similaire à TodosController::liste)
@@ -16,6 +17,7 @@ class ListesController extends Controller
         $categories = Categories::all();
         $todos = Todos::with('categories')->where('user_id', auth()->id())->get();
         $todosOrphans = $todos->where('listes_id', null);
+
         return view('listes', compact('listes', 'categories', 'todos', 'todosOrphans'));
     }
 
@@ -45,22 +47,24 @@ class ListesController extends Controller
         $libelle = $request->input('libelle');
 
         if ($libelle) {
-            $liste = new Listes();
+            $liste = new Listes;
             $liste->libelle = $libelle;
             $liste->save();
+
             return redirect()->route('listes.index');
         } else {
-            return redirect()->route('listes.index')->with('message', "Veuillez saisir un nom de liste");
+            return redirect()->route('listes.index')->with('message', 'Veuillez saisir un nom de liste');
         }
     }
 
-    //suppression simple d'une liste
+    // suppression simple d'une liste
     public function delete($id)
     {
         $liste = Listes::find($id);
         if ($liste) {
             $liste->delete();
         }
+
         return redirect()->route('listes.index');
     }
 
@@ -69,12 +73,12 @@ class ListesController extends Controller
     {
         $todo = Todos::where('id', $id)->where('user_id', auth()->id())->first();
         $liste = Listes::find($listeId);
-        
+
         if ($todo && $liste) {
             $todo->listes_id = $listeId;
             $todo->save();
         }
-        
+
         return redirect()->route('listes.index');
     }
 
@@ -83,6 +87,7 @@ class ListesController extends Controller
     {
         $listes = Listes::all();
         $todosOrphans = Todos::whereNull('listes_id')->where('user_id', auth()->id())->get();
+
         return view('listes.viewListeTodo', compact('listes', 'todosOrphans'));
     }
 
@@ -92,7 +97,7 @@ class ListesController extends Controller
         $todoIds = $request->input('todo_ids', []);
         $listeId = $request->input('liste_id');
 
-        if (!empty($todoIds) && $listeId) {
+        if (! empty($todoIds) && $listeId) {
             // Ne mettre à jour que les todos appartenant à l'utilisateur connecté
             Todos::whereIn('id', $todoIds)
                 ->where('user_id', auth()->id())

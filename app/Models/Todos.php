@@ -3,10 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Todos extends Model
 {
@@ -40,7 +39,7 @@ class Todos extends Model
     }
 
     // Optionnel mais recommandé si tu veux accéder à deleted_at comme un objet Carbon
-    //protected $dates = ['deleted_at'];
+    // protected $dates = ['deleted_at'];
 
     public function categories(): BelongsToMany
     {

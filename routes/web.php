@@ -2,11 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TodosController;
-//use Illuminate\Foundation\Application;
+// use Illuminate\Foundation\Application;
+use App\Models\Todos;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
-use App\Models\Todos;
 
 // Route::bind('todos', function ($value) {
 //     return Todos::with('categories')->find($value) ?? abort(404);
@@ -17,17 +16,14 @@ use App\Models\Todos;
 //     return view('todo.show', compact('todos'));
 // });
 
-
-    Route::get('/compteur', [TodosController::class, 'stats'])->name('todo.compteur');
-    Route::get('/search', [TodosController::class, 'search'])->name('todos.search');
-    Route::post('/search', [TodosController::class, 'search'])->name('todos.search');
-    Route::get('/planning', [TodosController::class, 'planning'])->name('todo.planning');Route::get('/liste', [TodosController::class, 'liste'])->name('listes.liste');
-    Route::get('/liste/add', [TodosController::class, 'saveListe'])->name('listes.save');
-
-
+Route::get('/compteur', [TodosController::class, 'stats'])->name('todo.compteur');
+Route::get('/search', [TodosController::class, 'search'])->name('todos.search');
+Route::post('/search', [TodosController::class, 'search'])->name('todos.search');
+Route::get('/planning', [TodosController::class, 'planning'])->name('todo.planning');
+Route::get('/liste', [TodosController::class, 'liste'])->name('listes.liste');
+Route::get('/liste/add', [TodosController::class, 'saveListe'])->name('listes.save');
 
 // Route::view ('/test', 'template');
-
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -38,7 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    //Route::get('/', [TodosController::class, 'liste']);
+    // Route::get('/', [TodosController::class, 'liste']);
     Route::get('/', [TodosController::class, 'liste'])->name('todo.liste');
 
     // Envoie du formulaire via la méthode POST pour l'enregister dans la base de donnée
@@ -60,11 +56,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/listes/attach/{id}/{listeId}', [\App\Http\Controllers\ListesController::class, 'attachTodo'])->name('listes.attach');
     Route::get('/listes/view-orphan-todos', [\App\Http\Controllers\ListesController::class, 'viewListeTodo'])->name('listes.viewListeTodo');
     Route::post('/listes/attach-multiple', [\App\Http\Controllers\ListesController::class, 'attachMultipleTodos'])->name('listes.attachMultiple');
-    
+
     // Créer une catégorie via AJAX
     Route::post('/categories', [\App\Http\Controllers\CategoriesController::class, 'store'])->name('categories.store');
 
-    
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

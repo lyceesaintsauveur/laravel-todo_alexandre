@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('categories_todos', function (Blueprint $table) {
             $table->integer('todos_id');
             $table->integer('categories_id');
-            #Déclaraction de la clé primaire
-            $table->primary(['todos_id','categories_id']);
+            // Déclaraction de la clé primaire
+            $table->primary(['todos_id', 'categories_id']);
 
             $table->foreign('todos_id')->references('id')->on('todos')->onDelete('cascade');
             $table->foreign('categories_id')->references('id')->on('categories');

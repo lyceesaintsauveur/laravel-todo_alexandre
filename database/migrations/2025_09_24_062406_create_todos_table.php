@@ -21,8 +21,13 @@ return new class extends Migration
             $table->foreign('listes_id')->references('id')->on('listes')
                 ->onDelete('cascade');
 
+            $table->integer('user_id')->nullable()->after('listes_id')->index();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->timestamp('date_fin')->nullable()->after('listes_id');
+
             // Déclaraction de la clé primaire
-            $table->primary('id');
+            // $table->primary('id');
             $table->timestamps();
             /* Utilisation de soft deletes */
             $table->softDeletes();

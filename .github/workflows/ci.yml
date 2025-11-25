@@ -83,9 +83,10 @@ jobs:
 
       - name: Static analysis (Larastan)
         run: |
-          if [ ! -f vendor/bin/phpstan ]; then composer require --dev phpstan/phpstan nunomaduro/larastan; fi
-          vendor/bin/phpstan analyse --memory-limit=1G --no-progress
+            if [ ! -f vendor/bin/phpstan ]; then composer require --dev phpstan/phpstan larastan/larastan; fi
+            vendor/bin/phpstan analyse app/ database/ --memory-limit=1G --no-progress
         continue-on-error: true
+
 
 
       - name: Upload build artifacts

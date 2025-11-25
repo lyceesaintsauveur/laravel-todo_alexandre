@@ -29,7 +29,6 @@ return new class extends Migration
             $table->integer('user_id')->nullable();
             $table->timestamp('date_fin')->nullable();
 
-
             // Déclaraction de la clé primaire
             // $table->primary('id');
             $table->timestamps();

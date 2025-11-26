@@ -17,10 +17,17 @@ Route::middleware('guest')->group(function () {
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
+    // Route::get('login', [AuthenticatedSessionController::class, 'create'])
+    //     ->name('login');
+
+    // Route::post('login', [AuthenticatedSessionController::class, 'store']);
+
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
+        ->middleware('throttle:10,1')   // 10 requêtes / min sur l’affichage du formulaire
         ->name('login');
 
-    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+    Route::post('login', [AuthenticatedSessionController::class, 'store'])
+        ->middleware('throttle:5,1');   // 5 tentatives de connexion / min
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');

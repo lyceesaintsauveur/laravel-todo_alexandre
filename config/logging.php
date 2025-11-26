@@ -134,6 +134,21 @@ return [
             'level' => 'debug',
         ],
 
+        'connexion' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/connexion.log'),
+            'level' => 'warning',
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        //  'security' => [
+        //     'driver' => 'single',
+        //     'path'   => storage_path('logs/security.log'),
+        //     'level'  => 'warning',
+        //     'level'  => env('LOG_LEVEL', 'debug'),
+
+        // ],
+
     ],
 
 ];

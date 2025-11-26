@@ -7,6 +7,8 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -22,13 +24,40 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
+    // public function store(LoginRequest $request): RedirectResponse
+    // {
+    //     $request->authenticate();
+
+    //     $request->session()->regenerate();
+
+    //     return redirect()->intended(route('dashboard', absolute: false));
+    // }
+
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        try {
+            $request->authenticate();
 
-        $request->session()->regenerate();
+            $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+            Log::channel('connexion')->info('Login OK', [
+                'ip' => $request->ip(),
+                'email' => $request->input('email'),
+                'user_id' => optional($request->user())->id,
+                'user_agent' => $request->userAgent(),
+            ]);
+
+            return redirect()->intended('/');
+        } catch (ValidationException $e) {
+            Log::channel('connexion')->warning('Login KO', [
+                'ip' => $request->ip(),
+                'email' => $request->input('email'),
+                'user_agent' => $request->userAgent(),
+                'errors' => $e->errors(),
+            ]);
+
+            throw $e;
+        }
     }
 
     /**

@@ -3,6 +3,9 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -16,8 +19,26 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
 
-        //
     })
+
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
-    })->create();
+
+        // Logging sécurité pour les dépassements de limite (HTTP 429)
+        $exceptions->render(function (ThrottleRequestsException $e, Request $request) {
+
+            Log::channel('connexion')->warning('Brute-force / rate limit déclenché', [
+                'ip' => $request->ip(),
+                'url' => $request->fullUrl(),
+                'method' => $request->method(),
+                'user_agent' => $request->userAgent(),
+            ]);
+
+            // Ne rien retourner ici => Laravel utilisera la réponse 429 par défaut
+            // (page "Too Many Attempts" ou JSON selon le contexte).
+
+        });
+
+        // Tu peux laisser d’autres config ici si Laravel en a généré
+
+    })
+    ->create();

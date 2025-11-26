@@ -6,6 +6,7 @@ use App\Models\Categories;
 use App\Models\Listes;
 use App\Models\Todos;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TodosController extends Controller
 {
@@ -29,6 +30,15 @@ class TodosController extends Controller
         $dateFin = $request->input('date_fin');
         $categories = $request->input('categories', []);
         // dd($request->input('priority')); // fonction de débug
+
+        $validator = Validator::make($request->all(), [
+            'texte' => 'required|string|max:256',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('todo.liste')->with('message', 'Erreur dans la saisie du texte');
+
+        }
 
         if ($texte) {
             // création d'un nouvel élément Todos et enregistrement dans la base de donnée

@@ -26,7 +26,8 @@ Route::get('/liste/add', [TodosController::class, 'saveListe'])->name('listes.sa
 // Route::view ('/test', 'template');
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    // return Inertia::render('Dashboard');
+    return redirect('/');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -59,6 +60,9 @@ Route::middleware('auth')->group(function () {
 
     // Créer une catégorie via AJAX
     Route::post('/categories', [\App\Http\Controllers\CategoriesController::class, 'store'])->name('categories.store');
+
+    // Route:: middleware('throttle:10,1')-> groupe(fonction () {
+    // Route :: post('/login', [LoginController::class, 'login']);
 
 });
 

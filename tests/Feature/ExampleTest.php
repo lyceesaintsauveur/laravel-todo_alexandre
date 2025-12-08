@@ -14,6 +14,8 @@ class ExampleTest extends TestCase
     {
         $response = $this->get('/');
 
-        $response->assertStatus(200);
+        // Unauthenticated users are redirected to login (302)
+        $response->assertStatus(302);
+        $response->assertRedirect(route('login'));
     }
 }

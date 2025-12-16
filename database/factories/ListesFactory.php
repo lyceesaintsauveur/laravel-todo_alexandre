@@ -12,7 +12,7 @@ class ListesFactory extends Factory
     public function definition(): array
     {
         return [
-            'titre' => fake()->words(2, true), // par ex. "Maison", "Bureau perso"
+            'libelle' => fake()->words(2, true), // par ex. "Maison", "Bureau perso"
         ];
     }
 }

@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Listes;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Foundation\Auth\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Todos>

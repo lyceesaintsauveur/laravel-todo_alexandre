@@ -32,7 +32,7 @@ class TodosController extends Controller
         // dd($request->input('priority')); // fonction de débug
 
         $validator = Validator::make($request->all(), [
-            'texte' => 'required|string|max:256',
+            'texte' => 'required|string|min:3|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -128,12 +128,12 @@ class TodosController extends Controller
             if ($request->input('from_listes')) {
                 return redirect()
                     ->route('listes.index')
-                    ->with('message', 'Veuillez terminé la tache avant de la supprimé');
+                    ->with('message', 'Veuillez terminé la tache avant de la supprimer');
             }
 
             return redirect()
                 ->route('todo.liste')
-                ->with('message', 'Veuillez terminé la tache avant de la supprimé');
+                ->with('message', 'Veuillez terminé la tache avant de la supprimer');
         }
     }
 

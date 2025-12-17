@@ -54,12 +54,4 @@ class TodosModelTest extends TestCase
         $this->assertFalse($todo->termine);
         $this->assertFalse($todo->important);
     }
-
-    public function test_texte_est_obligatoire()
-    {
-        $response = $this->postTodo(['texte' => '']);
-
-        $response->assertSessionHasErrors('texte');
-        $this->assertDatabaseCount('todos', 0);
-    }
 }

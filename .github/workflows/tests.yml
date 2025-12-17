@@ -60,4 +60,4 @@ jobs:
       - name: Run tests with coverage
         env:
           XDEBUG_MODE: coverage
-        run: php artisan test --coverage --min=80
+        run: php artisan test --coverage

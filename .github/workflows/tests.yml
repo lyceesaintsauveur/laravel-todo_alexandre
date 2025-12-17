@@ -61,3 +61,5 @@ jobs:
         env:
           XDEBUG_MODE: coverage
         run: php artisan test --coverage --min=80 || true
+
+        # run: php artisan test --coverage --min=80 --min-methods=80 --min-classes=80 --min-functions=80 --min-lines=80 --colors=always | tee result.log | tail -n +5 | head -n -2 > result.txt && cat result.txt

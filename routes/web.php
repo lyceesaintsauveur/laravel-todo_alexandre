@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ListesController;
+// use Illuminate\Foundation\Application;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TodosController;
-// use Illuminate\Foundation\Application;
 use App\Models\Todos;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -51,15 +53,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/action/delete/{id}', [TodosController::class, 'delete'])->name('todo.delete');
 
     // Pages et actions pour gérer les listes (création simple)
-    Route::get('/listes', [\App\Http\Controllers\ListesController::class, 'index'])->name('listes.index');
-    Route::post('/listes', [\App\Http\Controllers\ListesController::class, 'store'])->name('listes.store');
-    Route::get('/listes/delete/{id}', [\App\Http\Controllers\ListesController::class, 'delete'])->name('listes.delete');
-    Route::get('/listes/attach/{id}/{listeId}', [\App\Http\Controllers\ListesController::class, 'attachTodo'])->name('listes.attach');
-    Route::get('/listes/view-orphan-todos', [\App\Http\Controllers\ListesController::class, 'viewListeTodo'])->name('listes.viewListeTodo');
-    Route::post('/listes/attach-multiple', [\App\Http\Controllers\ListesController::class, 'attachMultipleTodos'])->name('listes.attachMultiple');
+    Route::get('/listes', [ListesController::class, 'index'])->name('listes.index');
+    Route::post('/listes', [ListesController::class, 'store'])->name('listes.store');
+    Route::get('/listes/delete/{id}', [ListesController::class, 'delete'])->name('listes.delete');
+    Route::get('/listes/attach/{id}/{listeId}', [ListesController::class, 'attachTodo'])->name('listes.attach');
+    Route::get('/listes/view-orphan-todos', [ListesController::class, 'viewListeTodo'])->name('listes.viewListeTodo');
+    Route::post('/listes/attach-multiple', [ListesController::class, 'attachMultipleTodos'])->name('listes.attachMultiple');
 
     // Créer une catégorie via AJAX
-    Route::post('/categories', [\App\Http\Controllers\CategoriesController::class, 'store'])->name('categories.store');
+    Route::post('/categories', [CategoriesController::class, 'store'])->name('categories.store');
 
     // Route:: middleware('throttle:10,1')-> groupe(fonction () {
     // Route :: post('/login', [LoginController::class, 'login']);

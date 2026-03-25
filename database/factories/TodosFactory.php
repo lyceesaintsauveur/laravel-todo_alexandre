@@ -3,11 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\Listes;
+use App\Models\Todos;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Todos>
+ * @extends Factory<Todos>
  */
 class TodosFactory extends Factory
 {

@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Categories;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CategoriesController extends Controller
 {
     /**
      * Affiche la liste des catégories.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function listeCatégories()
     {

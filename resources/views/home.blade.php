@@ -214,9 +214,9 @@
                                     <i class="bi bi-check2-square"></i>
                                 </a>
                             @else
-                                <a href="{{ route('todo.delete', $todo->id) }}" class="btn btn-danger">
+                                <button type="button" class="btn btn-danger btn-sm btn-delete-todo" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-action="{{ route('todo.delete', $todo->id) }}" data-texte="{{ addslashes($todo->texte) }}">
                                     <i class="bi bi-trash3"></i>
-                                </a>
+                                </button>
 
                                 @if (session('validation'))
                                     <p class="alert alert-success">{{ session('validation') }}</p>
@@ -244,4 +244,45 @@
         </div>
     </div>
 </div>
+
+<form id="deleteTodoForm" method="POST" style="display:none;">
+    @csrf
+    @method('DELETE')
+</form>
+
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmer la suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+            </div>
+            <div class="modal-body">
+                <p>Voulez-vous vraiment supprimer cette tâche ?</p>
+                <p class="fw-bold" id="deleteTodoText"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Supprimer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.btn-delete-todo').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const action = this.dataset.action;
+            const texte = this.dataset.texte || 'Cette tâche';
+            const form = document.getElementById('deleteTodoForm');
+            form.action = action;
+            document.getElementById('deleteTodoText').textContent = texte;
+        });
+    });
+
+    document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+        document.getElementById('deleteTodoForm').submit();
+    });
+</script>
+
 @endsection

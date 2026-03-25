@@ -50,7 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/action/low/{id}', [TodosController::class, 'downImportance'])->name('todo.lower');
 
     Route::get('/action/done/{id}', [TodosController::class, 'done'])->name('todo.done');
-    Route::get('/action/delete/{id}', [TodosController::class, 'delete'])->name('todo.delete');
+    Route::delete('/action/delete/{id}', [TodosController::class, 'delete'])->name('todo.delete');
 
     // Pages et actions pour gérer les listes (création simple)
     Route::get('/listes', [ListesController::class, 'index'])->name('listes.index');

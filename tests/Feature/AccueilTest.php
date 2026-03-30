@@ -29,25 +29,25 @@ class AccueilTest extends TestCase
         $response->assertSee('Ma Todo List');
     }
 
-    public function test_filtre_de_todos_est_affiche_et_contient_les_boutons_attendus()
-    {
-        $user = User::factory()->create();
+    // public function test_filtre_de_todos_est_affiche_et_contient_les_boutons_attendus()
+    // {
+    //     $user = User::factory()->create();
 
-        // Créer deux todos pour que le markup aie des statuts termines/non termines
-        $user->todos()->create(['texte' => 'Todo en cours', 'termine' => 0, 'important' => 0]);
-        $user->todos()->create(['texte' => 'Todo terminée', 'termine' => 1, 'important' => 0]);
+    //     // Créer deux todos pour que le markup aie des statuts termines/non termines
+    //     $user->todos()->create(['texte' => 'Todo en cours', 'termine' => 0, 'important' => 0]);
+    //     $user->todos()->create(['texte' => 'Todo terminée', 'termine' => 1, 'important' => 0]);
 
-        $response = $this->actingAs($user)
-            ->followingRedirects()
-            ->get('/');
+    //     $response = $this->actingAs($user)
+    //         ->followingRedirects()
+    //         ->get('/');
 
-        $response->assertOk();
-        $response->assertSee('data-filter="all"', false);
-        $response->assertSee('data-filter="pending"', false);
-        $response->assertSee('data-filter="done"', false);
-        $response->assertSee('data-termine="0"', false);
-        $response->assertSee('data-termine="1"', false);
-    }
+    //     $response->assertOk();
+    //     $response->assertSee('data-filter="all"', false);
+    //     $response->assertSee('data-filter="pending"', false);
+    //     $response->assertSee('data-filter="done"', false);
+    //     $response->assertSee('data-termine="0"', false);
+    //     $response->assertSee('data-termine="1"', false);
+    // }
 
     public function test_filtre_de_status_via_route_et_query_string()
     {

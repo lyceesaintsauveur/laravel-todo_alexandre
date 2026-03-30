@@ -45,7 +45,7 @@ class TodosValidationTest extends TestCase
     {
         $user = User::factory()->create();
         $this->actingAs($user);
-        
+
         $liste = Listes::factory()->create();
         $data = [
             'texte' => '',
@@ -65,7 +65,7 @@ class TodosValidationTest extends TestCase
     {
         $user = User::factory()->create();
         $this->actingAs($user);
-        
+
         $liste = Listes::factory()->create();
         $data = [
             'texte' => 'ab',
@@ -84,7 +84,7 @@ class TodosValidationTest extends TestCase
     {
         $user = User::factory()->create();
         $this->actingAs($user);
-        
+
         $liste = Listes::factory()->create();
         $texteTropLong = str_repeat('a', 257);
         $data = [
@@ -104,7 +104,7 @@ class TodosValidationTest extends TestCase
     {
         $user = User::factory()->create();
         $this->actingAs($user);
-        
+
         $liste = Listes::factory()->create();
         $data = [
             'texte' => 'Acheter du café',

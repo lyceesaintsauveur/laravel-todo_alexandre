@@ -160,9 +160,15 @@
             </form>
 
             <!-- Liste -->
+            <div class="d-flex gap-2 mb-3" id="todo-filter-buttons">
+                <button type="button" class="btn btn-outline-primary btn-sm {{ (isset($statusFilter) ? $statusFilter : 'all') === 'all' ? 'active' : '' }}" data-filter="all" data-url="{{ route('todo.liste.status', 'all') }}">Toutes</button>
+                <button type="button" class="btn btn-outline-primary btn-sm {{ (isset($statusFilter) ? $statusFilter : 'all') === 'pending' ? 'active' : '' }}" data-filter="pending" data-url="{{ route('todo.liste.status', 'pending') }}">En cours</button>
+                <button type="button" class="btn btn-outline-primary btn-sm {{ (isset($statusFilter) ? $statusFilter : 'all') === 'done' ? 'active' : '' }}" data-filter="done" data-url="{{ route('todo.liste.status', 'done') }}">Terminées</button>
+            </div>
+
             <ul class="list-group pt-3">
                 @forelse ($todos as $todo)
-                    <li class="list-group-item">
+                    <li class="list-group-item" data-termine="{{ $todo->termine }}">
 
                         <!-- Affichage de la priorité -->
                         @if ($todo->important == 0)
@@ -283,6 +289,35 @@
     document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
         document.getElementById('deleteTodoForm').submit();
     });
+
+    // Filtrage des todos (Toutes / En cours / Terminées) sans rechargement de page
+    const filterButtons = document.querySelectorAll('#todo-filter-buttons button');
+    const todoItems = document.querySelectorAll('[data-termine]');
+
+    function applyFilter(filter) {
+        todoItems.forEach(item => {
+            const termine = item.dataset.termine === '1';
+
+            if (filter === 'all') {
+                item.style.display = '';
+            } else if (filter === 'pending') {
+                item.style.display = termine ? 'none' : '';
+            } else if (filter === 'done') {
+                item.style.display = termine ? '' : 'none';
+            }
+        });
+    }
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            applyFilter(button.dataset.filter);
+        });
+    });
+
+    // Initialisation
+    applyFilter('all');
 </script>
 
 @endsection

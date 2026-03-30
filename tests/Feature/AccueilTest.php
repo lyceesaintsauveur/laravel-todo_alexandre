@@ -28,4 +28,54 @@ class AccueilTest extends TestCase
         // On vérifiera qu'on voit bien le texte "Ma Todo List" dans la page
         $response->assertSee('Ma Todo List');
     }
+
+    public function test_filtre_de_todos_est_affiche_et_contient_les_boutons_attendus()
+    {
+        $user = User::factory()->create();
+
+        // Créer deux todos pour que le markup aie des statuts termines/non termines
+        $user->todos()->create(['texte' => 'Todo en cours', 'termine' => 0, 'important' => 0]);
+        $user->todos()->create(['texte' => 'Todo terminée', 'termine' => 1, 'important' => 0]);
+
+        $response = $this->actingAs($user)
+            ->followingRedirects()
+            ->get('/');
+
+        $response->assertOk();
+        $response->assertSee('data-filter="all"', false);
+        $response->assertSee('data-filter="pending"', false);
+        $response->assertSee('data-filter="done"', false);
+        $response->assertSee('data-termine="0"', false);
+        $response->assertSee('data-termine="1"', false);
+    }
+
+    public function test_filtre_de_status_via_route_et_query_string()
+    {
+        $user = User::factory()->create();
+
+        $user->todos()->create(['texte' => 'Todo en cours', 'termine' => 0, 'important' => 0]);
+        $user->todos()->create(['texte' => 'Todo terminée', 'termine' => 1, 'important' => 0]);
+
+        $this->actingAs($user);
+
+        $responsePending = $this->get(route('todo.liste.status', 'pending'));
+        $responsePending->assertOk();
+        $responsePending->assertSee('Todo en cours');
+        $responsePending->assertDontSee('Todo terminée');
+
+        $responseDone = $this->get(route('todo.liste.status', 'done'));
+        $responseDone->assertOk();
+        $responseDone->assertSee('Todo terminée');
+        $responseDone->assertDontSee('Todo en cours');
+
+        $responseAll = $this->get(route('todo.liste.status', 'all'));
+        $responseAll->assertOk();
+        $responseAll->assertSee('Todo en cours');
+        $responseAll->assertSee('Todo terminée');
+
+        $responseQuery = $this->get('/?status=done');
+        $responseQuery->assertOk();
+        $responseQuery->assertSee('Todo terminée');
+        $responseQuery->assertDontSee('Todo en cours');
+    }
 }

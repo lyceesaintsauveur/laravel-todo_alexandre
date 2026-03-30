@@ -37,8 +37,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Route::get('/', [TodosController::class, 'liste']);
+    // Route de liste globale et de filtre (via query string ou segment URL)
     Route::get('/', [TodosController::class, 'liste'])->name('todo.liste');
+    Route::get('/todos/status/{status}', [TodosController::class, 'liste'])
+        ->where('status', 'all|pending|done')
+        ->name('todo.liste.status');
 
     // Envoie du formulaire via la méthode POST pour l'enregister dans la base de donnée
     Route::post('/action/add', [TodosController::class, 'saveTodo'])->name('todo.save');

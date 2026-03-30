@@ -10,16 +10,30 @@ use Illuminate\Support\Facades\Validator;
 
 class TodosController extends Controller
 {
-    public function liste()
+    public function liste(Request $request, $status = 'all')
     {
         $user = auth()->user();
 
+        // Autoriser filtre via query param ou segment d'URL
+        $status = $request->query('status', $status);
+        $status = in_array($status, ['all', 'pending', 'done']) ? $status : 'all';
+
+        $query = $user->todos()->with('categories', 'listes');
+
+        if ($status === 'pending') {
+            $query->where('termine', 0);
+        } elseif ($status === 'done') {
+            $query->where('termine', 1);
+        }
+
+        $todos = $query->get();
+
         return view('home', [
-            'todos' => $user->todos()->with('categories', 'listes')->get(),
+            'todos' => $todos,
             'categories' => Categories::all(),
             'listes' => Listes::all(),
+            'statusFilter' => $status,
         ]);
-
     }
 
     public function saveTodo(Request $request)

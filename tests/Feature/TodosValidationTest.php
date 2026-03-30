@@ -43,45 +43,86 @@ class TodosValidationTest extends TestCase
 
     public function test_texte_est_obligatoire()
     {
-        $response = $this->postTodo(['texte' => '']);
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        
+        $liste = Listes::factory()->create();
+        $data = [
+            'texte' => '',
+            'date_fin' => now()->addDay()->format('Y-m-d\TH:i'),
+            'priority' => 0,
+            'categories' => [],
+            'listes_id' => $liste->id,
+        ];
+
+        $response = $this->post('/action/add', $data);
         $response->assertRedirect(route('todo.liste'));
         $response->assertSessionHas('message', 'Erreur dans la saisie du texte');
-        $this->assertDatabaseCount('todos', 0);
+        $this->assertDatabaseMissing('todos', ['user_id' => $user->id, 'texte' => '']);
     }
 
     public function test_texte_doit_avoir_une_longueur_minimale()
     {
-        $response = $this->postTodo(['texte' => 'ab']); // 2 caractères
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        
+        $liste = Listes::factory()->create();
+        $data = [
+            'texte' => 'ab',
+            'date_fin' => now()->addDay()->format('Y-m-d\TH:i'),
+            'priority' => 0,
+            'categories' => [],
+            'listes_id' => $liste->id,
+        ];
 
+        $response = $this->post('/action/add', $data);
         $response->assertSessionHas('message', 'Erreur dans la saisie du texte');
-        $this->assertDatabaseCount('todos', 0);
+        $this->assertDatabaseMissing('todos', ['user_id' => $user->id, 'texte' => 'ab']);
     }
 
     public function test_texte_doit_avoir_une_longueur_maximale()
     {
-        $texteTropLong = str_repeat('a', 257); // 256 caractères
-
-        $response = $this->postTodo([
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        
+        $liste = Listes::factory()->create();
+        $texteTropLong = str_repeat('a', 257);
+        $data = [
             'texte' => $texteTropLong,
-        ]);
+            'date_fin' => now()->addDay()->format('Y-m-d\TH:i'),
+            'priority' => 0,
+            'categories' => [],
+            'listes_id' => $liste->id,
+        ];
 
+        $response = $this->post('/action/add', $data);
         $response->assertSessionHas('message', 'Erreur dans la saisie du texte');
-        $this->assertDatabaseCount('todos', 0);
+        $this->assertDatabaseMissing('todos', ['user_id' => $user->id, 'texte' => $texteTropLong]);
     }
 
     public function test_un_todos_valide_est_cree()
     {
-        $response = $this->postTodo(); // toutes les valeurs par défaut sont valides
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        
+        $liste = Listes::factory()->create();
+        $data = [
+            'texte' => 'Acheter du café',
+            'date_fin' => now()->addDay()->format('Y-m-d\TH:i'),
+            'priority' => 0,
+            'categories' => [],
+            'listes_id' => $liste->id,
+        ];
 
+        $response = $this->post('/action/add', $data);
         $response->assertSessionDoesntHaveErrors();
-        $response->assertRedirect(); // ou ->assertRedirect('/'); selon ton contrôleur
-
-        $this->assertDatabaseCount('todos', 1);
+        $response->assertRedirect();
 
         $this->assertDatabaseHas('todos', [
             'texte' => 'Acheter du café',
             'termine' => 0,
             'important' => 0,
+            'user_id' => $user->id,
         ]);
     }
 

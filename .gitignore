@@ -1,6 +1,7 @@
-<<<<<<< HEAD
+*.log
+.DS_Store
 /vendor/
-node_modules/
+/node_modules
 npm-debug.log
 yarn-error.log
 
@@ -21,22 +22,6 @@ storage/*.key
 Homestead.yaml
 Homestead.json
 /.vagrant
-.phpunit.result.cache
-
-/public/build
-/storage/pail
-.env.backup
-.env.production
-.phpactor.json
-auth.json
-=======
-*.log
-.DS_Store
-.env
-.env.backup
-.env.production
-.phpactor.json
-.phpunit.result.cache
 /.fleet
 /.idea
 /.nova
@@ -44,14 +29,12 @@ auth.json
 /.vscode
 /.zed
 /auth.json
-/node_modules
+.phpunit.result.cache
+
 /public/build
-/public/hot
-/public/storage
-/storage/*.key
 /storage/pail
-/vendor
-Homestead.json
-Homestead.yaml
+.env.backup
+.env.production
+.phpactor.json
+sonar-project.properties
 Thumbs.db
->>>>>>> 52f85de (Initial commit: Laravel ToDo)

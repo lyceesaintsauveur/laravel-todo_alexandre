@@ -13,7 +13,7 @@ class CategoriesController extends Controller
      *
      * @return Response
      */
-    public function listeCatégories()
+    public function listeCategories()
     {
         return view('home', ['categories' => Categories::all()]);
     }

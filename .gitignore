@@ -37,4 +37,5 @@ Homestead.json
 .env.production
 .phpactor.json
 sonar-project.properties
+
 Thumbs.db

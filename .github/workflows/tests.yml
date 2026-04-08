@@ -60,6 +60,15 @@ jobs:
       - name: Run tests with coverage
         env:
           XDEBUG_MODE: coverage
-        run: php artisan test --coverage --min=80 || true
+        run: php artisan test --coverage-clover=coverage.xml || true
+
+      # Dépose le rapport pour que sonar.yml puisse le récupérer
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.xml
+          retention-days: 1
 
         # run: php artisan test --coverage --min=80 --min-methods=80 --min-classes=80 --min-functions=80 --min-lines=80 --colors=always | tee result.log | tail -n +5 | head -n -2 > result.txt && cat result.txt

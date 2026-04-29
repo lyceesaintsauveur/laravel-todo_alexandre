@@ -20,8 +20,13 @@ WORKDIR /app
 COPY . .
 
 # Installation des dépendances PHP sans les packages de dev
-RUN composer install --no-dev --no-interaction \
-    --optimize-autoloader --prefer-dist
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --no-progress \
+    --optimize-autoloader \
+    --prefer-dist \
+    --ignore-platform-req=ext-zip
 
 # Build des assets front (Vite génère public/build/manifest.json)
 RUN npm ci && npm run build

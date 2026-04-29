@@ -20,7 +20,7 @@ use Inertia\Inertia;
 
 Route::get('/compteur', [TodosController::class, 'stats'])->name('todo.compteur');
 Route::get('/search', [TodosController::class, 'search'])->name('todos.search');
-Route::post('/search', [TodosController::class, 'search'])->name('todos.search');
+Route::post('/search', [TodosController::class, 'search'])->name('todos.searchPost');
 Route::get('/planning', [TodosController::class, 'planning'])->name('todo.planning');
 Route::get('/liste', [TodosController::class, 'liste'])->name('listes.liste');
 Route::get('/liste/add', [TodosController::class, 'saveListe'])->name('listes.save');
